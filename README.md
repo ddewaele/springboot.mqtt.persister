@@ -1,4 +1,4 @@
-#Spring Boot MQTT Persister
+# Spring Boot MQTT Persister
 
 Spring Boot / Integration project that listens on an MQTT topic, processes incoming messages (sensor payloads), logs them and persists them into a DB.
 Exposes a REST API to query the sensor payloads.
