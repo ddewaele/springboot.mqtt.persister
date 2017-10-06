@@ -1,7 +1,8 @@
-logging:
-  level: trace
-
 ixortalk:
   mqtt:
     connection-url: "tcp://mosquitto:1883"
     receive-mqtt-topic: "ixortalk/msg/#"
+
+endpoints:
+  health:
+    enabled: true

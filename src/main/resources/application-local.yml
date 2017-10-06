@@ -1,5 +1,5 @@
-logging:
-  level: trace
+#logging:
+#  file: /tmp/springboot-mqtt-persister.log
 
 ixortalk:
   mqtt:
