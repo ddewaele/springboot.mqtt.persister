@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/mqttpersister
+    username: mqttpersister
+    password: mqttpersister
+    platform: POSTGRESQL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+#logging:
+#  level:
+#    org.springframework.web: DEBUG
+#    org.hibernate: DEBUG
