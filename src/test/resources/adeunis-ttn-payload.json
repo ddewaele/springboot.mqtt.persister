@@ -1,15 +1,40 @@
 {
-  "btn1": 32,
-  "device_id": "adeunis-rf-tester",
-  "down": 55,
-  "gps": true,
-  "lat": "50.961950",
-  "lon": "3.516833",
-  "raw": "vxhQV3FwADMQEDo3GAu5bQE=",
-  "rssi": -185,
-  "snr": 109,
-  "temp": 24,
-  "time": "2017-10-08T16:38:40.888063386Z",
-  "uplink": 58,
-  "vbat": 6.155
+  "app_id": "xxxxx",
+  "dev_id": "cccccc",
+  "hardware_serial": "xxxxxxxx",
+  "port": 1,
+  "counter": 5,
+  "confirmed": true,
+  "payload_raw": "xxxxxxx",
+  "payload_fields": {
+    "btn1": 32,
+    "down": 4,
+    "gps": false,
+    "rssi": -14,
+    "snr": 7,
+    "temp": 27,
+    "uplink": 5,
+    "vbat": 4.203
+  },
+  "metadata": {
+    "time": "2017-10-08T22:30:21.957684657Z",
+    "frequency": 867.1,
+    "modulation": "LORA",
+    "data_rate": "SF7BW125",
+    "coding_rate": "4/5",
+    "gateways": [
+      {
+        "gtw_id": "xxxxxxxxx",
+        "timestamp": 1442376867,
+        "time": "2017-10-08T22:30:21.681719Z",
+        "channel": 3,
+        "rssi": -19,
+        "snr": 8.8,
+        "latitude": 50.9625,
+        "longitude": 3.51749,
+        "altitude": 14
+      }
+    ]
+  },
+  "downlink_url": "https://integrations.thethingsnetwork.org/ttn-eu/api/v2/down/field-testing/http-integration-id1?key=xxxxxx"
 }
