@@ -16,7 +16,11 @@
 package com.ixortalk.sprintboot.mqtt;
 
 import com.ixortalk.sprintboot.mqtt.config.MqttConfig;
+import com.ixortalk.sprintboot.mqtt.domain.LoraGatewayBridgeReceive;
+import com.ixortalk.sprintboot.mqtt.domain.LoraGatewayBridgeStats;
 import com.ixortalk.sprintboot.mqtt.domain.SensorPayload;
+import com.ixortalk.sprintboot.mqtt.handler.LoraGatewayBridgeReceiveHandler;
+import com.ixortalk.sprintboot.mqtt.handler.LoraGatewayBridgeStatsHandler;
 import com.ixortalk.sprintboot.mqtt.handler.SensorMessageHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -50,6 +54,12 @@ public class Application {
 
 	@Autowired
 	private SensorMessageHandler sensorMessageHandler;
+
+	@Autowired
+	private LoraGatewayBridgeReceiveHandler loraGatewayBridgeReceiveHandler;
+
+	@Autowired
+	private LoraGatewayBridgeStatsHandler loraGatewayBridgeStatsHandler;
 
 	@Autowired
 	private MqttConfig mqttConfig;
@@ -89,6 +99,42 @@ public class Application {
 
 	}
 
+	@Bean
+	public IntegrationFlow loraGatewayBridgeReceive() {
+		return IntegrationFlows.from(mqttLoraGatewayBridgeReceiveInbound())
+
+				// log the incoming message
+				.wireTap(sf -> sf.handle(logger()))
+
+				.transform(Transformers.fromJson(LoraGatewayBridgeReceive.class))
+
+				// our handler doesn't receive meta data, only the payload.
+				.handle(loraGatewayBridgeReceiveHandler)
+
+				.get();
+
+	}
+
+
+
+
+	@Bean
+	public IntegrationFlow loraGatewayBridgeStats() {
+		return IntegrationFlows.from(mqttLoraGatewayBridgeStatsInbound())
+
+				// log the incoming message
+				.wireTap(sf -> sf.handle(logger()))
+
+				.transform(Transformers.fromJson(LoraGatewayBridgeStats.class))
+
+				// our handler doesn't receive meta data, only the payload.
+				.handle(loraGatewayBridgeStatsHandler)
+
+				.get();
+
+	}
+
+
 	private String extractSensorIdFromTopic(Message<Object> m) {
 		String topic = m.getHeaders().get(RECEIVED_TOPIC).toString();
 		return topic.substring(topic.lastIndexOf("/")+1,topic.length());
@@ -100,16 +146,32 @@ public class Application {
 		return loggingHandler;
 	}
 
+
+
+	@Bean
+	public MessageProducerSupport mqttLoraGatewayBridgeStatsInbound() {
+		return mqttInboundWithClientId("loraGatewayBridgeStats","gateway/+/stats");
+	}
+
+
+	@Bean
+	public MessageProducerSupport mqttLoraGatewayBridgeReceiveInbound() {
+		return mqttInboundWithClientId("loraGatewayBridgeReceive","gateway/+/rx");
+	}
+
 	@Bean
 	public MessageProducerSupport mqttInbound() {
-		MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(CONSUMER_CLIENT_ID,
-				mqttClientFactory(), mqttConfig.getReceiveMqttTopic());
+		return mqttInboundWithClientId(CONSUMER_CLIENT_ID,mqttConfig.getReceiveMqttTopic());
+	}
+
+
+	private MessageProducerSupport mqttInboundWithClientId(String clientId,String receiveTopic) {
+		MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(clientId, mqttClientFactory(), receiveTopic);
 		adapter.setCompletionTimeout(5000);
 		adapter.setConverter(new DefaultPahoMessageConverter());
 		adapter.setQos(1);
 		return adapter;
 	}
-
 
 
 }

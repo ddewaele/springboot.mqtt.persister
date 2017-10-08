@@ -1,6 +1,6 @@
-# Spring Boot MQTT Persister
+# Spring Boot Lora Persister
 
-Spring Boot / Integration project that processes messages by
+Spring Boot / Integration project that processes Lora messages by
 
 - listening on an MQTT topic
 - accepting payloads via REST
@@ -9,11 +9,78 @@ logs them and persists them into a DB.
 
 Exposes a REST API to query the sensor payloads.
 
-## Dependencies
+Currently supports 
 
-MQTT broker needs to be running (configured in application.yml)
+- MultiTech Lora Network Server message format
+- LoraBridge message (stats, rx)
+- Adeunis RF TTN converted messages
+- Custom sensor payloads
 
-## Sample messages
+## Spring Boot as docker
+
+Can be run as a docker container.
+```
+docker run --name springboot.mqtt.persister -p 8080:8080 -d ddewaele/springboot.mqtt.persister
+```
+
+## Docker compose
+
+We also offer a docker-compose file.
+
+# Supported payloads
+
+
+
+
+## MultiTech message format
+
+
+```
+curl -H "Content-Type: application/json" -d@./src/test/resources/multitech-conduit-payload.json http://localhost:8086/multiTechPayloads
+curl http://localhost:8086/multiTechPayloads
+```
+
+## Lora Bridge network format
+
+Support for persisting [lora-gateway-bridge](https://hub.docker.com/r/loraserver/lora-gateway-bridge/) json payloads coming in via MQTT.
+
+- gateway/[GATEWAY_ID]/stats
+- gateway/[GATEWAY_ID]/rx
+
+Where GATEWAY_ID is he mac hex representation of the gateway (ex: b827ebfffecbe31f)
+
+REST endpoints are also made available :
+
+```
+curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-receive.json http://localhost:8086/loraGatewayBridgeReceives
+curl http://localhost:8086/loraGatewayBridgeReceives
+```
+
+```
+curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-gateway-status.json http://localhost:8086/loraGatewayBridgeStatses
+curl http://localhost:8086/loraGatewayBridgeStatses
+```
+
+## Adeunis RF Field Tester
+
+```
+curl -H "Content-Type: application/json" -d@./src/test/resources/adeunis-ttn-payload.json http://localhost:8086/adeunisRfTtnPayloads
+curl http://localhost:8086/adeunisRfTtnPayloads
+```
+
+## Custom sensor payloads
+
+The application supports a custom sensor payload via MQTT.
+
+```
+{
+  "sensorId": "88-00-00-00-00-00-00-00",
+  "temp": 20,
+  "status": true,
+  "date": "2017-10-08T08:52:03.631Z",
+  "raw": "xxxxxxxxxxxx"
+}
+```
 
 Messages can be injected using MQTT: 
 
@@ -47,11 +114,4 @@ The application exposes REST APIs to fetch the sensor data.
 http://localhost:8080/api/sensor/88-11-22-33-44-55-66-79  ---> shows the most recent sensor value
 http://localhost:8080/api/sensor/88-11-22-33-44-55-66-79/history   ----> shows the historical values
 curl http://localhost:8080/api/aggregate ---> aggregates all recent sensor values for distinct sensor IDs.
-```
-
-## Spring Boot as docker
-
-Can be run as a docker container.
-```
-docker run --name springboot.mqtt.persister -p 8080:8080 -d ddewaele/springboot.mqtt.persister
 ```

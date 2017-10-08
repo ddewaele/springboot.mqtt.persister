@@ -1,7 +1,7 @@
 package com.ixortalk.sprintboot.mqtt.rest;
 
 import com.ixortalk.sprintboot.mqtt.domain.SensorPayload;
-import com.ixortalk.sprintboot.mqtt.domain.SensorPayloadRepository;
+import com.ixortalk.sprintboot.mqtt.repo.SensorPayloadRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class SimplePayloadRest {
+public class SensorPayloadRest {
 
-    private final Logger log = LoggerFactory.getLogger(SimplePayloadRest.class);
+    private final Logger log = LoggerFactory.getLogger(SensorPayloadRest.class);
 
     @Autowired
     private SensorPayloadRepository sensorPayloadRepository;

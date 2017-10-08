@@ -1,4 +1,4 @@
-package com.ixortalk.sprintboot.mqtt.domain;
+package com.ixortalk.sprintboot.mqtt.repo;
 
 import com.ixortalk.sprintboot.mqtt.domain.SensorPayload;
 import org.springframework.data.jpa.repository.Query;

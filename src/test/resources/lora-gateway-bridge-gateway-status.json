@@ -1,0 +1,12 @@
+{
+  "mac": "xxxxxxx",
+  "time": "2017-10-08T16:28:05Z",
+  "latitude": 50.9625,
+  "longitude": 3.51749,
+  "altitude": 14,
+  "rxPacketsReceived": 0,
+  "rxPacketsReceivedOK": 0,
+  "txPacketsReceived": 0,
+  "txPacketsEmitted": 0,
+  "customData": null
+}

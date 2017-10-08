@@ -1,0 +1,15 @@
+{
+  "btn1": 32,
+  "device_id": "adeunis-rf-tester",
+  "down": 55,
+  "gps": true,
+  "lat": "50.961950",
+  "lon": "3.516833",
+  "raw": "vxhQV3FwADMQEDo3GAu5bQE=",
+  "rssi": -185,
+  "snr": 109,
+  "temp": 24,
+  "time": "2017-10-08T16:38:40.888063386Z",
+  "uplink": 58,
+  "vbat": 6.155
+}

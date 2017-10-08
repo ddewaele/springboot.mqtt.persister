@@ -1,0 +1,52 @@
+version: "2"
+services:
+
+  # The gateway bridge that you should configure on your lora gateways.
+  # This bridge will pick up the RF packets and forwards them to an MQTT server (also started via this compose file)
+  gatewaybridge:
+    image: loraserver/lora-gateway-bridge
+    ports:
+      - "1700:1700/udp"
+    links:
+      - mosquitto
+    environment:
+      - MQTT_SERVER=tcp://mosquitto:1883
+      - TEST_MQTT_SERVER=tcp://mosquitto:1883
+
+  # The MQTT server that is used by the loraserver to send the messages.
+  mosquitto:
+    image: ansi/mosquitto
+    ports:
+      - 1883:1883
+
+  # Micro-service, capable of ingesting lora messages / payloads via various channels (MQTT / REST) to store them in a database
+  springboot-mqtt-persister:
+    image: ddewaele/springboot.mqtt.persister
+    expose:
+      - 8086
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgres
+    volumes:
+      - /var/log/springboot.mqtt.persister:/var/log/springboot.mqtt.persister
+    depends_on:
+      mosquitto:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+  # The database used by the microservice
+  postgres:
+    image: healthcheck/postgres
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=mqttpersister
+      - POSTGRES_PASSWORD=mqttpersister
+      - POSTGRES_DB=mqttpersister
+    privileged: true
+    volumes:
+      - ${PWD}/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      interval: 5s
+      timeout: 5s
+      retries: 30
