@@ -1,4 +1,4 @@
-version: "2"
+version: "2.1"
 services:
 
   # The gateway bridge that you should configure on your lora gateways.
@@ -15,9 +15,13 @@ services:
 
   # The MQTT server that is used by the loraserver to send the messages.
   mosquitto:
-    image: ansi/mosquitto
+    image: eclipse-mosquitto
+    expose:
+      - 1883
+      - 9001
     ports:
       - 1883:1883
+      - 9001:9001
 
   # Micro-service, capable of ingesting lora messages / payloads via various channels (MQTT / REST) to store them in a database
   springboot-mqtt-persister:

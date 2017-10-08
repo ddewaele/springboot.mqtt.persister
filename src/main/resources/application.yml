@@ -9,3 +9,5 @@ endpoints:
 
 server:
   port: 8086
+  servlet:
+    context-path: /api

@@ -36,8 +36,8 @@ We also offer a docker-compose file.
 
 
 ```
-curl -H "Content-Type: application/json" -d@./src/test/resources/multitech-conduit-payload.json http://localhost:8086/multiTechPayloads
-curl http://localhost:8086/multiTechPayloads
+curl -H "Content-Type: application/json" -d@./src/test/resources/multitech-conduit-payload.json http://localhost:8086/api/multiTechPayloads
+curl http://localhost:8086/api/multiTechPayloads
 ```
 
 ## Lora Bridge network format
@@ -52,20 +52,20 @@ Where GATEWAY_ID is he mac hex representation of the gateway (ex: b827ebfffecbe3
 REST endpoints are also made available :
 
 ```
-curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-receive.json http://localhost:8086/loraGatewayBridgeReceives
-curl http://localhost:8086/loraGatewayBridgeReceives
+curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-receive.json http://localhost:8086/api/loraGatewayBridgeReceives
+curl http://localhost:8086/api/loraGatewayBridgeReceives
 ```
 
 ```
-curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-gateway-status.json http://localhost:8086/loraGatewayBridgeStatses
-curl http://localhost:8086/loraGatewayBridgeStatses
+curl -H "Content-Type: application/json" -d@./src/test/resources/lora-gateway-bridge-gateway-status.json http://localhost:8086/api/loraGatewayBridgeStatses
+curl http://localhost:8086/api/loraGatewayBridgeStatses
 ```
 
 ## Adeunis RF Field Tester
 
 ```
-curl -H "Content-Type: application/json" -d@./src/test/resources/adeunis-ttn-payload.json http://localhost:8086/adeunisRfTtnPayloads
-curl http://localhost:8086/adeunisRfTtnPayloads
+curl -H "Content-Type: application/json" -d@./src/test/resources/adeunis-ttn-payload.json http://localhost:8086/api/adeunisRfTtnPayloads
+curl http://localhost:8086/api/adeunisRfTtnPayloads
 ```
 
 ## Custom sensor payloads
@@ -113,5 +113,5 @@ The application exposes REST APIs to fetch the sensor data.
 ```
 http://localhost:8080/api/sensor/88-11-22-33-44-55-66-79  ---> shows the most recent sensor value
 http://localhost:8080/api/sensor/88-11-22-33-44-55-66-79/history   ----> shows the historical values
-curl http://localhost:8080/api/aggregate ---> aggregates all recent sensor values for distinct sensor IDs.
+curl http://localhost:8080/api/sensor/aggregate ---> aggregates all recent sensor values for distinct sensor IDs.
 ```

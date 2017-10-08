@@ -19,7 +19,7 @@ public class SensorPayloadRest {
     @Autowired
     private SensorPayloadRepository sensorPayloadRepository;
 
-    @GetMapping("/api/aggregate")
+    @GetMapping("/sensor/aggregate")
     public Map<String,SensorPayload> aggregate() {
         List<String> distinctSensorIds = sensorPayloadRepository.findDistinctSensorIds();
         Map<String,SensorPayload> map = new HashMap<>();
@@ -31,18 +31,18 @@ public class SensorPayloadRest {
         return map;
     }
 
-    @GetMapping("/api/sensor/{sensorId}")
+    @GetMapping("/sensor/{sensorId}")
     public SensorPayload getPayloadforSensorId(@PathVariable String sensorId) {
         return sensorPayloadRepository.findFirstBySensorIdOrderByDateDesc(sensorId);
     }
 
-    @PostMapping("/api/sensor")
+    @PostMapping("/sensor")
     public SensorPayload addPayloadforSensorId(@RequestBody SensorPayload sensorPayload) {
         log.info("Saving sensorPayload {}",sensorPayload);
         return sensorPayloadRepository.save(sensorPayload);
     }
 
-    @GetMapping("/api/sensor/{sensorId}/history")
+    @GetMapping("/sensor/{sensorId}/history")
     public List<SensorPayload> getPayloadHistoryForSensorId(@PathVariable String sensorId) {
         return sensorPayloadRepository.findBySensorIdOrderByDateDesc(sensorId);
     }
