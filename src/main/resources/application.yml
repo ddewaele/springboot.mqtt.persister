@@ -6,3 +6,6 @@ ixortalk:
 endpoints:
   health:
     enabled: true
+
+server:
+  port: 8086

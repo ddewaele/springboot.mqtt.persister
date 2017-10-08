@@ -18,6 +18,7 @@ public class SensorPayload {
     public boolean status;
     public int temp;
     public Date date;
+    public String raw;
 
     @Override
     public String toString() {
@@ -27,6 +28,7 @@ public class SensorPayload {
                 ", status=" + status +
                 ", temp=" + temp +
                 ", date=" + date +
+                ", raw=" + raw +
                 '}';
     }
 }

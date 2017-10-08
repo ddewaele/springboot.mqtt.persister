@@ -87,9 +87,6 @@ public class Application {
 
 				.get();
 
-//		return IntegrationFlows.from(mqttInbound())
-//				.handle(logger())
-//				.get();
 	}
 
 	private String extractSensorIdFromTopic(Message<Object> m) {

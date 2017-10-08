@@ -1,6 +1,12 @@
 # Spring Boot MQTT Persister
 
-Spring Boot / Integration project that listens on an MQTT topic, processes incoming messages (sensor payloads), logs them and persists them into a DB.
+Spring Boot / Integration project that processes messages by
+
+- listening on an MQTT topic
+- accepting payloads via REST
+
+logs them and persists them into a DB.
+
 Exposes a REST API to query the sensor payloads.
 
 ## Dependencies
@@ -22,6 +28,12 @@ mosquitto_pub -h localhost -t "ixortalk/msg/88-11-22-33-44-55-66-78" -m "{\"temp
 mosquitto_pub -h localhost -t "ixortalk/msg/88-11-22-33-44-55-66-78" -m "{\"temp\":14,\"status\":false,\"date\":\"2010-01-01T13:30:00+01:00\",\"raw\":\"0101470dd3c16e00640b0209d100\"}" 
 mosquitto_pub -h localhost -t "ixortalk/msg/88-11-22-33-44-55-66-78" -m "{\"temp\":15,\"status\":false,\"date\":\"2010-01-01T13:20:00+01:00\",\"raw\":\"0101470dd3c16e00640b0209d100\"}" 
 mosquitto_pub -h localhost -t "ixortalk/msg/88-11-22-33-44-55-66-79" -m "{\"temp\":16,\"status\":false,\"date\":\"2010-01-01T13:40:00+01:00\",\"raw\":\"0101470dd3c16e00640b0209d100\"}" 
+```
+
+or via REST
+
+```
+curl -X POST -H "Content-Type:application/json" -d @./src/test/resources/payload.json http://localhost:8085/api/sensor
 ```
 
 We also provide a `generate.sh` script that inserts some random data every second.

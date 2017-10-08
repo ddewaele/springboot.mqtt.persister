@@ -2,23 +2,24 @@ package com.ixortalk.sprintboot.mqtt.rest;
 
 import com.ixortalk.sprintboot.mqtt.domain.SensorPayload;
 import com.ixortalk.sprintboot.mqtt.domain.SensorPayloadRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-
 public class SimplePayloadRest {
+
+    private final Logger log = LoggerFactory.getLogger(SimplePayloadRest.class);
 
     @Autowired
     private SensorPayloadRepository sensorPayloadRepository;
 
-    @RequestMapping("/api/aggregate")
+    @GetMapping("/api/aggregate")
     public Map<String,SensorPayload> aggregate() {
         List<String> distinctSensorIds = sensorPayloadRepository.findDistinctSensorIds();
         Map<String,SensorPayload> map = new HashMap<>();
@@ -30,12 +31,18 @@ public class SimplePayloadRest {
         return map;
     }
 
-    @RequestMapping("/api/sensor/{sensorId}")
+    @GetMapping("/api/sensor/{sensorId}")
     public SensorPayload getPayloadforSensorId(@PathVariable String sensorId) {
         return sensorPayloadRepository.findFirstBySensorIdOrderByDateDesc(sensorId);
     }
 
-    @RequestMapping("/api/sensor/{sensorId}/history")
+    @PostMapping("/api/sensor")
+    public SensorPayload addPayloadforSensorId(@RequestBody SensorPayload sensorPayload) {
+        log.info("Saving sensorPayload {}",sensorPayload);
+        return sensorPayloadRepository.save(sensorPayload);
+    }
+
+    @GetMapping("/api/sensor/{sensorId}/history")
     public List<SensorPayload> getPayloadHistoryForSensorId(@PathVariable String sensorId) {
         return sensorPayloadRepository.findBySensorIdOrderByDateDesc(sensorId);
     }
