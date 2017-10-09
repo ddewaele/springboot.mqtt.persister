@@ -29,11 +29,14 @@ We also offer a docker-compose file.
 
 # Supported payloads
 
+We support the following payloads :
 
-
+- MultiTech Lora Network Server message format
+- LoraBridge message (stats, rx)
+- Adeunis RF TTN converted messages
+- Custom sensor payloads
 
 ## MultiTech message format
-
 
 ```
 curl -H "Content-Type: application/json" -d@./src/test/resources/multitech-conduit-payload.json http://localhost:8086/api/multiTechPayloads
@@ -63,6 +66,8 @@ curl http://localhost:8086/api/loraGatewayBridgeStatses
 
 ## Adeunis RF Field Tester
 
+As described in the [Adeunis RF Field tester documentation]()https://www.adeunis.com/wp-content/uploads/2017/08/ARF8123AA_ADEUNIS_LORAWAN_FTD_UG_V1.2.0_FR_GB.pdf), the device sends out useful information that we can capture.
+
 ```
 curl -H "Content-Type: application/json" -d@./src/test/resources/adeunis-ttn-payload.json http://localhost:8086/api/adeunisRfTtnPayloads
 curl http://localhost:8086/api/adeunisRfTtnPayloads
@@ -70,7 +75,7 @@ curl http://localhost:8086/api/adeunisRfTtnPayloads
 
 ## Custom sensor payloads
 
-The application supports a custom sensor payload via MQTT.
+zThe application supports a custom sensor payload via MQTT.
 
 ```
 {
